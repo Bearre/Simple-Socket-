@@ -12,13 +12,13 @@ int main()
 	
 	//Key constants
 	const char IP_SERV[] = "";			// Enter local Server IP address
-	const uint16_t PORT_NUM = 0;				// Enter Open working server port
+	const uint16_t PORT_NUM = 0;			// Enter Open working server port
 	const short BUFF_SIZE = 1024;			// Maximum size of buffer for exchange info between server and client
 
-	// Key variables for all program
-	int erStat;								// Keeps socket errors status
+	
+	int erStat;					// Keeps socket errors status
 
-	//IP in string format to numeric format for socket functions. Data is in "ip_to_num"
+	//IP in string format to numeric format for socket functions
 	in_addr ip_to_num;
 	erStat = inet_pton(AF_INET, IP_SERV, &ip_to_num);
 	
@@ -37,9 +37,9 @@ int main()
 		std::cout << "Error WinSock version initializaion #";
 		std::cout << WSAGetLastError();
 		return 1;
-	}
-	else
+	} else {
 		std::cout << "WinSock initialization is OK" << '\n';
+	}
 	
 	// Server socket initialization
 	SOCKET ServSock = socket(AF_INET, SOCK_STREAM, 0);
@@ -49,9 +49,9 @@ int main()
 		closesocket(ServSock);
 		WSACleanup();
 		return 1;
-	}
-	else
+	} else {
 		std::cout << "Server socket initialization is OK" << '\n';
+	}
 
 	// Server socket binding
 	sockaddr_in servInfo;
@@ -68,9 +68,9 @@ int main()
 		closesocket(ServSock);
 		WSACleanup();
 		return 1;
-	}
-	else 
+	} else {
 		std::cout << "Binding socket to Server info is OK" << '\n';
+	}
 	
 	//Starting to listen to any Clients
 	erStat = listen(ServSock, SOMAXCONN);
@@ -99,22 +99,23 @@ int main()
 		closesocket(ClientConn);
 		WSACleanup();
 		return 1;
-	}
-	else {
+	} else {
 		std::cout << "Connection to a client established successfully" << '\n';
 		char clientIP[22];
 
-		inet_ntop(AF_INET, &clientInfo.sin_addr, clientIP, INET_ADDRSTRLEN);	  // Convert connected client's IP to standard string format
+		inet_ntop(AF_INET, &clientInfo.sin_addr, clientIP, INET_ADDRSTRLEN);	 	  // Convert connected client's IP to standard string format
 
 		std::cout << "Client connected with IP address " << clientIP << '\n';
 
 	}
 
-	std::vector<char> servBuff(BUFF_SIZE), clientBuff(BUFF_SIZE);							// Creation of buffers for sending and receiving data
-	short packet_size = 0;												                            // The size of sending / receiving packet in bytes
+	std::vector<char> servBuff(BUFF_SIZE), clientBuff(BUFF_SIZE);				 // Creation of buffers for sending and receiving data
+	short packet_size = 0;									 // The size of sending / receiving packet in bytes
 	
+	
+	// Receiving packet from client. Program is waiting (system pause) until receive
 	while (true) {
-		packet_size = recv(ClientConn, servBuff.data(), servBuff.size(), 0);		// Receiving packet from client. Program is waiting (system pause) until receive
+		packet_size = recv(ClientConn, servBuff.data(), servBuff.size(), 0);		 
 		std::cout << "Client's message: " << servBuff.data() << '\n'; 
 
 		cout << "Your (host) message: ";
