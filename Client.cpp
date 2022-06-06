@@ -8,12 +8,13 @@
 
 #pragma comment(lib, "ws2_32.lib")
 
-using namespace std;
-
 
 int main()
 {
-	//Key constants
+        using std::cout;
+        using std::endl;
+
+    	//Key constants
 	const char SERVER_IP[] = "";					// Enter IPv4 address of Server
 	const short SERVER_PORT_NUM = 0;				// Enter Listening port on Server side
 	const short BUFF_SIZE = 1024;					// Maximum size of buffer for exchange info between server and client
@@ -34,9 +35,9 @@ int main()
 		cout << "Error WinSock version initializaion #";
 		cout << WSAGetLastError();
 		return 1;
-  } else { 
+        } else { 
 		cout << "WinSock initialization is OK" << endl;
-  }
+        }
   
 	// Socket initialization
 	SOCKET ClientSock = socket(AF_INET, SOCK_STREAM, 0);
@@ -47,7 +48,7 @@ int main()
 		WSACleanup();
 	} else {
 		cout << "Client socket initialization is OK" << endl;
-  }
+        }
   
 	// Establishing a connection to Server
 	sockaddr_in servInfo;
@@ -67,7 +68,7 @@ int main()
 		return 1;
 	} else { 
 		cout << "Connection established SUCCESSFULLY. Ready to send a message to Server" << endl;
-  }
+        }
 
 	//Exchange text data between Server and Client. Disconnection if a Client send "xxx"
 
@@ -105,7 +106,7 @@ int main()
 			return 1;
 		} else {
 			cout << "Server message: " << servBuff.data() << endl;
-    }
+                }
 	}
 
 	closesocket(ClientSock);
